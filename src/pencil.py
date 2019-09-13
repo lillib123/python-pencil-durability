@@ -6,7 +6,18 @@ class Pencil:
         self.durability = durability
 
     def write(self, text):
-        hi = paper.get("text") + text
-        paper.update({"text": hi})
+        for i in range(len(text)):
+            currentCharacter = text[i]
+            if self.durability > 0:
+                self.writeToPaper(currentCharacter)
+                if currentCharacter.isupper():
+                    self.durability -= 2
+                elif currentCharacter.islower():
+                    self.durability -= 1
+            else:
+                self.writeToPaper(" ")
 
-        self.durability -= len(text)
+    def writeToPaper(self, character):
+        paper.update({"text": paper.get("text") + character})
+
+

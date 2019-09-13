@@ -39,6 +39,28 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual(95, self.coolPencil.durability)
 
+    def test_pencil_that_reaches_durability_limit_mid_word_will_add_spaces_for_remaining_characters(self):
+        pencilWithZeroDurabilityLimit = Pencil(4)
+        pencilWithZeroDurabilityLimit.write("words")
+
+        self.assertEqual("word ", paper.get("text"))
+
+    def test_pencil_is_dull_can_only_writes_space(self):
+            dullPencil = Pencil(0)
+            dullPencil.write("friday")
+
+            self.assertEqual("      ", paper.get("text"))
+
+    def test_pencil_can_write_spaces_without_decreasing_durability_limit(self):
+        self.coolPencil.write("one two")
+
+        self.assertEqual(94, self.coolPencil.durability)
+
+    def test_pencil_decreases_by_two_when_writing_capital_letters(self):
+        self.coolPencil.write("Hey You")
+
+        self.assertEqual(92, self.coolPencil.durability)
+
 
 if __name__ == '__main__':
     unittest.main()
