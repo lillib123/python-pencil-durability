@@ -27,4 +27,8 @@ class Pencil:
             self.length -= 1
             self.durability = self.initial_durability
 
+    def erase(self, text):
+        replacement_text = paper.get("text").replace("d", " ", 1)
+        paper.update({"text": replacement_text})
+
 
