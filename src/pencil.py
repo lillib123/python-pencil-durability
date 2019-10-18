@@ -1,4 +1,5 @@
 from paper import paper
+import re
 
 
 class Pencil:
@@ -19,7 +20,8 @@ class Pencil:
             else:
                 self.write_to_paper(" ")
 
-    def write_to_paper(self, character):
+    @staticmethod
+    def write_to_paper(character):
         paper.update({"text": paper.get("text") + character})
 
     def sharpen(self):
@@ -27,8 +29,7 @@ class Pencil:
             self.length -= 1
             self.durability = self.initial_durability
 
-    def erase(self, text):
-        replacement_text = paper.get("text").replace("d", " ", 1)
+    @staticmethod
+    def erase(text):
+        replacement_text = re.sub(r"d$", 'd', paper.get("text"))
         paper.update({"text": replacement_text})
-
-
