@@ -31,5 +31,5 @@ class Pencil:
 
     @staticmethod
     def erase(text):
-        replacement_text = re.sub(r"d$", 'd', paper.get("text"))
+        replacement_text = re.sub(r"" + text + "(?!.*" + text + ")", ' ', paper.get("text"))
         paper.update({"text": replacement_text})

@@ -98,11 +98,23 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual("abc ", paper.get("text"))
 
-    def test_pencil_can_erase_last_occurence_of_character_and_replace_with_space(self):
+    def test_pencil_can_erase_last_occurence_of_d_and_replace_with_space(self):
         self.cool_pencil.write("abcdabcd")
         self.cool_pencil.erase("d")
 
         self.assertEqual("abcdabc ", paper.get("text"))
+
+    def test_pencil_can_erase_last_occurence_of_e_and_replace_with_space(self):
+        self.cool_pencil.write("abcdeabcde")
+        self.cool_pencil.erase("e")
+
+        self.assertEqual("abcdeabcd ", paper.get("text"))
+
+    def test_pencil_can_erase_last_occurence_of_e_and_replace_with_space(self):
+        self.cool_pencil.write("abcdeabcdefg")
+        self.cool_pencil.erase("e")
+
+        self.assertEqual("abcdeabcd fg", paper.get("text"))
 
 
 if __name__ == '__main__':
