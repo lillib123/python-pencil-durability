@@ -6,7 +6,7 @@ from pencil import Pencil
 class MyTestCase(unittest.TestCase):
     def setUp(self):
         paper.update({"text": ""})
-        self.cool_pencil = Pencil(100, 20)
+        self.cool_pencil = Pencil(100, 20, 10)
 
     def test_something(self):
         self.assertEqual(True, True)
@@ -30,7 +30,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual("something1something2", paper.get("text"))
 
     def test_durability_value_can_be_set_on_new_pencil(self):
-        pencil_with_custom_durability_limit = Pencil(42, 20)
+        pencil_with_custom_durability_limit = Pencil(42, 20, 10)
 
         self.assertEqual(42, pencil_with_custom_durability_limit.durability)
 
@@ -40,16 +40,16 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(95, self.cool_pencil.durability)
 
     def test_pencil_that_reaches_durability_limit_mid_word_will_add_spaces_for_remaining_characters(self):
-        pencil_with_zero_durability_limit = Pencil(4, 20)
+        pencil_with_zero_durability_limit = Pencil(4, 20, 10)
         pencil_with_zero_durability_limit.write("words")
 
         self.assertEqual("word ", paper.get("text"))
 
     def test_pencil_is_dull_can_only_writes_space(self):
-            dull_pencil = Pencil(0, 20)
-            dull_pencil.write("friday")
+        dull_pencil = Pencil(0, 20, 10)
+        dull_pencil.write("friday")
 
-            self.assertEqual("      ", paper.get("text"))
+        self.assertEqual("      ", paper.get("text"))
 
     def test_pencil_can_write_spaces_without_decreasing_durability_limit(self):
         self.cool_pencil.write("one two")
@@ -62,7 +62,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(92, self.cool_pencil.durability)
 
     def test_pencil_sharpened_gains_points_durability(self):
-        pencil_with_ten_durability_limit = Pencil(10, 20)
+        pencil_with_ten_durability_limit = Pencil(10, 20, 10)
         pencil_with_ten_durability_limit.write("hello")
 
         self.assertEqual(5, pencil_with_ten_durability_limit.durability)
@@ -70,7 +70,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(10, pencil_with_ten_durability_limit.durability)
 
     def test_durability_and_length_value_can_be_set_to_a_new_pencil(self):
-        pencil_with_custom_durability_and_length = Pencil(10, 20)
+        pencil_with_custom_durability_and_length = Pencil(10, 20, 10)
 
         self.assertEqual(10, pencil_with_custom_durability_and_length.durability)
         self.assertEqual(20, pencil_with_custom_durability_and_length.length)
@@ -80,13 +80,13 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(19, self.cool_pencil.length)
 
     def test_pencil_length_cannot_be_negative(self):
-        pencil_with_zero_length = Pencil(10, 0)
+        pencil_with_zero_length = Pencil(10, 0, 10)
         pencil_with_zero_length.sharpen()
 
         self.assertEqual(0, pencil_with_zero_length.length)
 
     def test_pencil_durability_cannot_be_restored_when_the_length_is_zero(self):
-        pencil_with_zero_length = Pencil(10, 0)
+        pencil_with_zero_length = Pencil(10, 0, 10)
         pencil_with_zero_length.write("hello")
         pencil_with_zero_length.sharpen()
 
@@ -115,6 +115,17 @@ class MyTestCase(unittest.TestCase):
         self.cool_pencil.erase("e")
 
         self.assertEqual("abcdeabcd fg", paper.get("text"))
+
+    def test_pencil_can_erase_text_and_replace_with_spaces(self):
+        self.cool_pencil.write("helloworld")
+        self.cool_pencil.erase("he")
+
+        self.assertEqual("  lloworld", paper.get("text"))
+
+    def test_pencil_can_be_created_with_eraser_durability(self):
+        pencil_with_eraser = Pencil(0, 20, 10)
+
+        self.assertEqual(10, pencil_with_eraser.eraser_durability)
 
 
 if __name__ == '__main__':

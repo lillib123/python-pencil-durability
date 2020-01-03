@@ -3,10 +3,11 @@ import re
 
 
 class Pencil:
-    def __init__(self, durability, length):
+    def __init__(self, durability, length, eraser_durability):
         self.durability = durability
         self.initial_durability = durability
         self.length = length
+        self.eraser_durability = eraser_durability
 
     def write(self, text):
         for i in range(len(text)):
@@ -31,5 +32,6 @@ class Pencil:
 
     @staticmethod
     def erase(text):
-        replacement_text = re.sub(r"" + text + "(?!.*" + text + ")", ' ', paper.get("text"))
+        space = " " * len(text)
+        replacement_text = re.sub(r"" + text + "(?!.*" + text + ")", space, paper.get("text"))
         paper.update({"text": replacement_text})
