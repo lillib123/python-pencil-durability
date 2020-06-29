@@ -44,8 +44,9 @@ class Pencil:
             replacement_character = new_text[i]
             if paper.get("text")[replacement_index] != " ":
                 replacement_character = "@"
-
-            replacement_text = paper.get("text")[:replacement_index] + replacement_character + paper.get("text")[replacement_index + 1:]
-            paper.update({"text": replacement_text})
-            replacement_index += 1
+            if self.durability > 0:
+                replacement_text = paper.get("text")[:replacement_index] + replacement_character + paper.get("text")[replacement_index + 1:]
+                paper.update({"text": replacement_text})
+                replacement_index += 1
+                self.durability -= 1
 

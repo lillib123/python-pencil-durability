@@ -169,6 +169,12 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual("good@@@", paper.get("text"))
 
+    def test_replacement_text_degrades_pencil(self):
+        self.cool_pencil.write("hi")
+        self.cool_pencil.erase("hi", "ok")
+
+        self.assertEqual(96, self.cool_pencil.durability)
+
 
 if __name__ == '__main__':
     unittest.main()
