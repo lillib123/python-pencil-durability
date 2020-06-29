@@ -13,16 +13,16 @@ class Pencil:
         for i in range(len(text)):
             current_character = text[i]
             if self.durability > 0:
-                self.write_to_paper(current_character)
+                self.update_paper(current_character)
                 if current_character.isupper():
                     self.durability -= 2
                 elif current_character.islower():
                     self.durability -= 1
             else:
-                self.write_to_paper(" ")
+                self.update_paper(" ")
 
     @staticmethod
-    def write_to_paper(character):
+    def update_paper(character):
         paper.update({"text": paper.get("text") + character})
 
     def sharpen(self):
@@ -30,8 +30,10 @@ class Pencil:
             self.length -= 1
             self.durability = self.initial_durability
 
-    @staticmethod
-    def erase(text):
-        space = " " * len(text)
-        replacement_text = re.sub(r"" + text + "(?!.*" + text + ")", space, paper.get("text"))
-        paper.update({"text": replacement_text})
+    def erase(self, text):
+        for i in range(len(text)):
+            current_character = text[::-1][i]
+            if self.eraser_durability > 0:
+                replacement_text = re.sub(r"" + current_character + "(?!.*" + current_character + ")", " ", paper.get("text"))
+                paper.update({"text": replacement_text})
+                self.eraser_durability -= 1

@@ -116,16 +116,40 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual("abcdeabcd fg", paper.get("text"))
 
-    def test_pencil_can_erase_text_and_replace_with_spaces(self):
-        self.cool_pencil.write("helloworld")
-        self.cool_pencil.erase("he")
+    def test_pencil_can_erase_last_occurence_text_and_replace_with_spaces(self):
+        self.cool_pencil.write("helloworldhello")
+        self.cool_pencil.erase("hello")
 
-        self.assertEqual("  lloworld", paper.get("text"))
+        self.assertEqual("helloworld     ", paper.get("text"))
 
     def test_pencil_can_be_created_with_eraser_durability(self):
         pencil_with_eraser = Pencil(0, 20, 10)
 
         self.assertEqual(10, pencil_with_eraser.eraser_durability)
+
+    def test_pencil_eraser_durability_degrades_1_per_character_erased(self):
+        pencil_with_eraser = Pencil(0, 20, 10)
+
+        pencil_with_eraser.write('hello')
+        pencil_with_eraser.erase('hello')
+
+        self.assertEqual(5, pencil_with_eraser.eraser_durability)
+
+    def test_eraser_durability_does_not_go_below_zero(self):
+        pencil_with_eraser = Pencil(20, 20, 0)
+
+        pencil_with_eraser.write('hello')
+        pencil_with_eraser.erase('hello')
+
+        self.assertEqual(0, pencil_with_eraser.eraser_durability)
+
+    def test_pencil_will_stop_erasing_after_hitting_durability_limit(self):
+        pencil_with_eraser = Pencil(20, 20, 3)
+
+        pencil_with_eraser.write('hello')
+        pencil_with_eraser.erase('hello')
+
+        self.assertEqual('he   ', paper.get("text"))
 
 
 if __name__ == '__main__':
