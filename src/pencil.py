@@ -33,7 +33,7 @@ class Pencil:
     def erase(self, text):
         for i in range(len(text)):
             current_character = text[::-1][i]
-            if self.eraser_durability > 0:
+            if self.eraser_durability > 0 and current_character != " ":
                 replacement_text = re.sub(r"" + current_character + "(?!.*" + current_character + ")", " ", paper.get("text"))
                 paper.update({"text": replacement_text})
                 self.eraser_durability -= 1

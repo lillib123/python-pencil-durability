@@ -151,6 +151,12 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual('he   ', paper.get("text"))
 
+    def test_spaces_should_not_degrade_eraser(self):
+        self.cool_pencil.write("     ")
+        self.cool_pencil.erase("     ")
+
+        self.assertEqual(10, self.cool_pencil.eraser_durability)
+
 
 if __name__ == '__main__':
     unittest.main()
