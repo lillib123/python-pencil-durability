@@ -157,6 +157,18 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual(10, self.cool_pencil.eraser_durability)
 
+    def test_erase_can_also_replace_white_space(self):
+        self.cool_pencil.write("goodbye")
+        self.cool_pencil.erase("good", "bad")
+
+        self.assertEqual("bad bye", paper.get("text"))
+
+    def test_overlapping_replacement_text_will_replace_with_at_symbol(self):
+        self.cool_pencil.write("goodbye")
+        self.cool_pencil.erase("good", "goodpie")
+
+        self.assertEqual("good@@@", paper.get("text"))
+
 
 if __name__ == '__main__':
     unittest.main()
